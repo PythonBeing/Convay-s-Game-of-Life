@@ -13,7 +13,7 @@
             int gameWindowHeight = 15;
             int refreshRate = 125;
 
-            int[,] gameWindow = new int[gameWindowHeight,gameWindowWidth];
+            char[,] gameWindow = new char[gameWindowHeight,gameWindowWidth];
             InstantiateGame(gameWindow);
 
             // Detect game state
@@ -25,7 +25,7 @@
             }
         }
 
-        static void InstantiateGame(int[,] gameWindow)
+        static void InstantiateGame(char[,] gameWindow)
         {
             //Create new and different game window everytime
             Random rand = new Random();
@@ -34,12 +34,22 @@
             {
                 for (int y = 0; y < gameWindow.GetLength(1); y++)
                 {
-                    gameWindow[x, y] = rand.Next(2);
+                    int randomInt = rand.Next(2);
+
+                    if (randomInt == 0)
+                    {
+                        gameWindow[x, y] = ' ';
+                    }
+
+                    else
+                    {
+                        gameWindow[x, y] = 'a';
+                    }
                 }
             }
         }
 
-        static void ConvaysGame(int[,] gameWindow)
+        static void ConvaysGame(char[,] gameWindow)
         {
             /*
              * Logic for Convay's Game of life:
@@ -56,72 +66,72 @@
                 {
                     int neighbours = CheckForNeighbours(gameWindow, x, y);
 
-                    if (gameWindow[x,y] == 1)
+                    if (gameWindow[x,y] == 'a')
                     {
                         if (neighbours < 2)
                         {
-                            gameWindow[x, y] = 0;
+                            gameWindow[x, y] = ' ';
                         }
 
                         else if (neighbours > 3)
                         {
-                            gameWindow[x, y] = 0;
+                            gameWindow[x, y] = ' ';
                         }
                     }
                     else
                     {
                         if (neighbours == 3)
                         {
-                            gameWindow[x,y] = 1;
+                            gameWindow[x,y] = 'a';
                         }
                     }
                 }
             }
         }
 
-        static int CheckForNeighbours(int[,] gamewindow, int posX, int posY)
+        static int CheckForNeighbours(char[,] gamewindow, int posX, int posY)
         {
             // Check for neighboring live cells (1s) so that Convay's rules can be applied
             int liveNeighbours = 0;
 
             try
             {
-                if (gamewindow[posX - 1, posY - 1] == 1)
+                if (gamewindow[posX - 1, posY - 1] == 'a')
                 {
                     liveNeighbours++;
                 }
 
-                if (gamewindow[posX, posY - 1] == 1)
+                if (gamewindow[posX, posY - 1] == 'a')
                 {
                     liveNeighbours++;
                 }
 
-                if (gamewindow[posX + 1, posY - 1] == 1)
+                if (gamewindow[posX + 1, posY - 1] == 'a')
                 {
                     liveNeighbours++;
                 }
 
-                if (gamewindow[posX - 1, posY] == 1)
+                if (gamewindow[posX - 1, posY] == 'a')
                 {
                     liveNeighbours++;
                 }
 
-                if (gamewindow[posX + 1, posY] == 1)
+                if (gamewindow[posX + 1, posY] == 'a')
                 {
                     liveNeighbours++;
                 }
 
-                if (gamewindow[posX - 1, posY + 1] == 1)
+                if (gamewindow[posX - 1, posY + 1] == 'a')
                 {
                     liveNeighbours++;
                 }
 
-                if (gamewindow[posX, posY + 1] == 1)
+                if (gamewindow[posX, posY + 1] == 'a')
                 {
                     liveNeighbours++;
                 }
 
-                if (gamewindow[posX + 1, posY + 1] == 1)
+                if (gamewindow[posX + 1, posY + 1] == 'a')
                 {
                     liveNeighbours++;
                 }
@@ -135,22 +145,21 @@
             return liveNeighbours;
         }
 
-        static void DisplayGame(int[,] gameWindow, int refreshRate)
+        static void DisplayGame(char[,] gameWindow, int refreshRate)
         {
             //Displaying the game window with the given state of the array
             for (int x = 0; x < gameWindow.GetLength(0); x++)
             {
                 for (int y = 0; y < gameWindow.GetLength(1); y++)
                 {
-                    if (gameWindow[x, y] == 1)
+                    if (gameWindow[x, y] == 'a')
                     {
-                        Console.ForegroundColor = ConsoleColor.Cyan;
+                        Console.ForegroundColor = ConsoleColor.Red;
                         Console.Write(gameWindow[x, y].ToString() + " ");
                     }
 
                     else
                     {
-                        Console.ForegroundColor = ConsoleColor.Red;
                         Console.Write(gameWindow[x, y].ToString() + " ");
                     }
                 }
