@@ -13,15 +13,25 @@
             int gameWindowHeight = 15;
             int refreshRate = 125;
 
+            //gamewindow is updated and displayed, while gameReferenceWindow is used to check for neighbours and correctly update gameWindow,
+            //so that the state of the array is not dependent on the previous operation but is done all at the same time
             char[,] gameWindow = new char[gameWindowHeight,gameWindowWidth];
+            char[,] gameReferenceWindow = new char[gameWindowHeight, gameWindowWidth];
+
             InstantiateGame(gameWindow);
+            InstantiateGame(gameReferenceWindow);
 
             // Detect game state
             while (gameOn == true) 
             {
                 DisplayGame(gameWindow, refreshRate);
-                ConvaysGame(gameWindow);
-                
+                ConvaysGame(gameWindow, gameReferenceWindow);
+
+                //End the loop on command
+                if (Console.KeyAvailable && Console.ReadKey().Key == ConsoleKey.Enter)
+                {
+                    gameOn = false;
+                }
             }
         }
 
@@ -49,7 +59,7 @@
             }
         }
 
-        static void ConvaysGame(char[,] gameWindow)
+        static void ConvaysGame(char[,] gameWindow, char[,] gameReferenceWindow)
         {
             /*
              * Logic for Convay's Game of life:
@@ -60,13 +70,13 @@
              */
 
             // Applying Convay's rules to the array
-            for (int x = 0; x < gameWindow.GetLength(0); x++)
+            for (int x = 0; x < gameReferenceWindow.GetLength(0); x++)
             {
-                for (int y = 0; y < gameWindow.GetLength(1); y++)
+                for (int y = 0; y < gameReferenceWindow.GetLength(1); y++)
                 {
-                    int neighbours = CheckForNeighbours(gameWindow, x, y);
+                    int neighbours = CheckForNeighbours(gameReferenceWindow, x, y);
 
-                    if (gameWindow[x,y] == 'a')
+                    if (gameReferenceWindow[x, y] == 'a')
                     {
                         if (neighbours < 2)
                         {
@@ -82,9 +92,18 @@
                     {
                         if (neighbours == 3)
                         {
-                            gameWindow[x,y] = 'a';
+                            gameWindow[x, y] = 'a';
                         }
                     }
+                }
+            }
+
+            //Update the reference state to the current frame
+            for (int x = 0; x < gameWindow.GetLength(0); x++)
+            {
+                for (int y = 0; y < gameWindow.GetLength(1); y++)
+                {
+                    gameReferenceWindow[x, y] = gameWindow[x, y];
                 }
             }
         }
@@ -143,6 +162,20 @@
             }
 
             return liveNeighbours;
+        }
+
+        static int NumberofLiveCells(char[,] gameWindow)
+        {
+            int liveCells = 0;
+            foreach (char a in gameWindow)
+            {
+                if (a == 'a')
+                {
+                    liveCells++;
+                }
+            }
+
+            return liveCells;
         }
 
         static void DisplayGame(char[,] gameWindow, int refreshRate)
