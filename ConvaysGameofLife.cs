@@ -3,13 +3,18 @@
 
     using System.Reflection.Metadata.Ecma335;
     using System.Runtime.CompilerServices;
+    using System.Text;
     using System.Threading;
 
     internal class ConvaysGameofLife {
         static void Main(string[] args) {
             bool gameOn = true;
-            int gameWindowWidth = 15;
-            int gameWindowHeight = 15;
+            int gameWindowWidth = 16;
+            int gameWindowHeight = 16;
+            int displayPosWidth = (int)((Console.WindowWidth / 2) - (gameWindowWidth));
+            int displayPosHeight = (int)((Console.WindowHeight / 2) - (gameWindowHeight/2));
+            string displayPosWidthFill = new StringBuilder().Insert(0, " ", displayPosWidth).ToString();
+            string displayPosHeightFill = new StringBuilder().Insert(0, " ", displayPosHeight).ToString();
             int refreshRate = 125;
             int reoccurenceofLiveCells = 0;
 
@@ -20,7 +25,7 @@
             InstantiateGame(gameReferenceWindow);
 
             while (gameOn == true) {
-                DisplayGame(gameWindow, refreshRate);
+                DisplayGame(gameWindow, refreshRate, displayPosWidthFill, displayPosHeightFill);
 
                 int numberofLiveCells = NumberofLiveCells(gameWindow);
                 if (numberofLiveCells == 0) {
@@ -151,8 +156,12 @@
             return liveCells;
         }
 
-        static void DisplayGame(char[,] gameWindow, int refreshRate) {
+        static void DisplayGame(char[,] gameWindow, int refreshRate, string displayPosWidthFill, string displayPosHeightFill) {
+            foreach (char a in displayPosHeightFill) {
+                Console.WriteLine("");
+            }
             for (int x = 0; x < gameWindow.GetLength(0); x++) {
+                Console.Write(displayPosWidthFill);
                 for (int y = 0; y < gameWindow.GetLength(1); y++) {
                     Console.Write(gameWindow[x, y].ToString() + " ");
                 }
