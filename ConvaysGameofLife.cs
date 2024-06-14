@@ -11,7 +11,6 @@
             int gameWindowWidth = 15;
             int gameWindowHeight = 15;
             int refreshRate = 125;
-            int numberofLiveCells = 0;
             int reoccurenceofLiveCells = 0;
 
             char[,] gameWindow = new char[gameWindowHeight, gameWindowWidth];
@@ -23,7 +22,7 @@
             while (gameOn == true) {
                 DisplayGame(gameWindow, refreshRate);
 
-                numberofLiveCells = NumberofLiveCells(gameWindow);
+                int numberofLiveCells = NumberofLiveCells(gameWindow);
                 if (numberofLiveCells == 0) {
                     gameOn = false;
                 }
