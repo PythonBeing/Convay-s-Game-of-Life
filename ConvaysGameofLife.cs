@@ -11,8 +11,8 @@
             bool gameOn = true;
             int gameWindowWidth = 16;
             int gameWindowHeight = 16;
-            int displayPosWidth = (int)((Console.WindowWidth / 2) - (gameWindowWidth));
-            int displayPosHeight = (int)((Console.WindowHeight / 2) - (gameWindowHeight/2));
+            int displayPosWidth = (int)((Console.WindowWidth - gameWindowWidth) / 2);
+            int displayPosHeight = (int)((Console.WindowHeight - gameWindowHeight) / 2);
             string displayPosWidthFill = new StringBuilder().Insert(0, " ", displayPosWidth).ToString();
             string displayPosHeightFill = new StringBuilder().Insert(0, " ", displayPosHeight).ToString();
             int refreshRate = 125;
@@ -70,12 +70,12 @@
 
         static void ConvaysGame(char[,] gameWindow, char[,] gameReferenceWindow) {
             /*
-                * Logic for Convay's Game of life:
-                * Any live cell with fewer than two live neighbors dies, as if by underpopulation.
-                * Any live cell with two or three live neighbors lives on to the next generation.
-                * Any live cell with more than three live neighbors dies, as if by overpopulation.
-                * Any dead cell with exactly three live neighbors becomes a live cell, as if by reproduction.
-                */
+            * Logic for Convay's Game of life:
+            * Any live cell with fewer than two live neighbors dies, as if by underpopulation.
+            * Any live cell with two or three live neighbors lives on to the next generation.
+            * Any live cell with more than three live neighbors dies, as if by overpopulation.
+            * Any dead cell with exactly three live neighbors becomes a live cell, as if by reproduction.
+            */
 
             for (int x = 0; x < gameReferenceWindow.GetLength(0); x++) {
                 for (int y = 0; y < gameReferenceWindow.GetLength(1); y++) {
