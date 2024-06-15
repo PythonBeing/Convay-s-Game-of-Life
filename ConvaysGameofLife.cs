@@ -11,8 +11,8 @@
             bool gameOn = true;
             int gameWindowWidth = 16;
             int gameWindowHeight = 16;
-            int displayPosWidth = (int)((Console.WindowWidth - gameWindowWidth) / 2);
-            int displayPosHeight = (int)((Console.WindowHeight - gameWindowHeight) / 2);
+            int displayPosWidth = (Console.WindowWidth - (gameWindowWidth * 2)) / 2;
+            int displayPosHeight = (Console.WindowHeight - (gameWindowHeight)) / 2;
             string displayPosWidthFill = new StringBuilder().Insert(0, " ", displayPosWidth).ToString();
             string displayPosHeightFill = new StringBuilder().Insert(0, " ", displayPosHeight).ToString();
             int refreshRate = 125;
@@ -34,6 +34,7 @@
 
                 ConvaysGame(gameWindow, gameReferenceWindow);
 
+                // Revisit this sometime, not quite robust but good enough for now
                 if (numberofLiveCells == NumberofLiveCells(gameWindow)) {
                     reoccurenceofLiveCells++;
                 }
